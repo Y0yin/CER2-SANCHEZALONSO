@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Inicio</title>
+    <link rel="stylesheet" href="{% static 'blog/css/bootstrap.css' %}"/>
+    <link rel="stylesheet" href="{% static 'blog/css/estilos.css' %}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"/>
+</head>
+<body>
+    <div class="container-fluid">
+        {%include 'blog/index.html'%}
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div  id="nave" class="col">
+                {%include 'blog/navegacion.html'%}
+            </div>
+        </div>
+    </div>
+    <div id="filter" class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <form action="{% url 'filtro' %}" method="GET">
+                    {% csrf_token %}
+                <select class="form-select" aria-label="Default select example" name="departamento">
+                    <option selected>Departamento</option>
+                    {% for entidad in entidades %}
+                    <option value="{{ entidad.nombre }}"> {{ entidad.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" type="submit">Submit form</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="tarjeta" class="container-fluid">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for comunicado in comunicados %}
+            <div id="comunicadin" class="col">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h5 class="card-title">{{ comunicado.titulo }}</h5>
+                  <h6 class="card-subtitle mb-2 text-body-secondary">{{ comunicado.entidad.nombre }}</h6>
+                  <p class="card-text"> {{ comunicado.detalle}}</p>
+                  <p class="card-text"><small class="text-body-secondary">{{ comunicado.fecha_publicacion }}</small></p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="carru" class="container-fluid d-flex align-items-center">
+        <div id="carouselExampleIndicators" class="carousel mx-auto ">
+            <div class="carousel-indicators">
+                {% for comunicado in comunicados %}
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+                {% endfor %}
+            </div>
+            <div class="carousel-inner">
+                {% for comunicado in comunicados %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <h5>{{ comunicado.titulo }}</h5>
+                        <h6>{{ comunicado.entidad.nombre }}</h6>
+                        <p>{{ comunicado.detalle }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="{%static 'blog/js/bootstrap.js'%}"></script>
+    <script src="{%static 'blog/js/script.js'%}"></script>
+  
+    
+</body>
+
+</html>

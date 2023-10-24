@@ -1,0 +1,29 @@
+#nave{
+    margin: 10px;
+}
+
+#comunicadin{
+    margin-top: 50px;
+}
+
+@media screen and (min-width:1400px){
+    #tarjeta{
+        display: none;
+    }
+    #nave{
+        display: none;
+    }
+    #filter{
+        display: none;
+    }
+    #carouselExampleIndicators{
+       margin-top: 20%;
+    }
+}
+@media screen and (max-width:1399px){
+    #carouselExampleIndicators{
+        display: none;
+        
+    }
+}
+
